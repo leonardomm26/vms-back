@@ -146,6 +146,12 @@ class AirVehicle(Vehicle):
         else:
             return False
 
+    def __dict__(self) -> dict:
+        return {'id_vehicle': self._id_vehicle, 'model': self._model, 'description': self._description,
+                'brand': self._brand, 'type': self._type, 'weight': self._weight, 'age': self._age,
+                'price': self._price, 'status': self._status, 'flight_hours': self._flight_hours,
+                'people_capacity': self._people_capacity, 'engine_type': self._engine_type}
+
 
 if __name__ == '__main__':
     air_vehicle_1 = AirVehicle()

@@ -140,12 +140,18 @@ class LandVehicle(Vehicle):
         else:
             return False
 
+    def __dict__(self) -> dict:
+        return {'id_vehicle': self._id_vehicle, 'model': self._model, 'description': self._description,
+                'brand': self._brand, 'type': self._type, 'weight': self._weight, 'age': self._age,
+                'price': self._price, 'status': self._status, 'millage': self._mileage,
+                'cylinder_capacity': self._cylinder_capability, 'fuel_type': self._fuel_type}
+
 
 if __name__ == '__main__':
     land_vehicle_1 = LandVehicle()
     land_vehicle_2 = LandVehicle()
     print(land_vehicle_1)
-    print(land_vehicle_2)
+    print(land_vehicle_2.__dict__())
 
     if land_vehicle_1 == land_vehicle_2:
         print(f'The vehicle with id "{land_vehicle_1.id_vehicle}" is equal to "{land_vehicle_2.id_vehicle}"')

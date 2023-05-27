@@ -223,6 +223,11 @@ class Vehicle(object):
         else:
             return False
 
+    def __dict__(self) -> dict:
+        return {'id_vehicle': self._id_vehicle, 'model': self._model, 'description': self._description,
+                'brand': self._brand, 'type': self._type, 'weight': self._weight, 'age': self._age,
+                'price': self._price, 'status': self._status}
+
 
 if __name__ == '__main__':
     vehicle_1 = Vehicle(2345623, "Chevrolet Spark")

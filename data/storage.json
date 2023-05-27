@@ -1,25 +1,14 @@
 {
   "vehicles": [
     {
-      "id_vehicle": 120200,
-      "model": "Brummmmmmm",
-      "description": "Brimmmmmsf mafma ",
-      "brand": "Mazda",
-      "type": "Cargas",
-      "weight": 21020202.0,
-      "age": 2004,
-      "price": 2500600.0,
-      "status": "Viejo"
-    },
-    {
-      "id_vehicle": 40,
-      "model": "Supra",
-      "description": "The mythic car for Fast&Furious fans",
+      "id_vehicle": 90,
+      "model": "Toyota Supra Mk4",
+      "description": "The Toyota Supra MK4 is equipped with a twin-turbo 3.0-litre straight six which can produce up 320Hp and around 440 Nm of torque and is known as the 2JZ-series . The acceleration of this car from 0 to 100kmh is around 4.9 seconds, and the top speed can reach up to 277kmh.",
       "brand": "Toyota",
-      "type": "Sport",
-      "weight": 1495.0,
+      "type": "Terrestrial",
+      "weight": 3200,
       "age": 0,
-      "price": 2500.0,
+      "price": 45000,
       "status": "New"
     }
   ]

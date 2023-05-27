@@ -1,22 +1,28 @@
 import json
 import os
 from logic.vehicle import Vehicle
+from logic.land_vehicle import LandVehicle
+from logic.maritime_vehicle import MaritimeVehicle
+from logic.air_vehicle import AirVehicle
 PATH = os.getcwd()
-DIR_DATA = PATH + '{0}data{0}'.format(os.sep)
+DIR_DATA = PATH + '{0}..{0}data{0}'.format(os.sep)
 
 
 class VehicleController(object):
     def __init__(self):
         self.file = '{0}{1}'.format(DIR_DATA, 'storage.json')
 
-    def add(self, vehicle: Vehicle = Vehicle()) -> str:
+    def add(self, vehicle: Vehicle) -> str:
         with open(self.file, 'r+') as f:
             data = json.load(f)
-            data['vehicles'].append(vehicle.__dict__)
-            print(vehicle.__str__())
-            f.seek(0)
-            json.dump(data, f)
-        return vehicle.__str__()
+            if vehicle.id_vehicle not in [item['id_vehicle'] for item in data["vehicles"]]:
+                data['vehicles'].append(vehicle.__dict__())
+                f.seek(0)
+                json.dump(data, f)
+                message = vehicle.__str__()
+            else:
+                message = 'There is already a vehicle with that id'
+        return message
 
     def show(self):
         with open(self.file, 'r') as file:
@@ -29,20 +35,13 @@ class VehicleController(object):
         vehicles = [vehicle for vehicle in data['vehicles'] if value in str(vehicle.values())]
         return vehicles
 
-    def delete(self, value):
-        vehicles_del = self.compare(value)
-        print("Deleting:")
-        for vehicle in vehicles_del:
-            print(vehicle)
-
+    def delete(self, id_vehicle: int):
         with open(self.file, 'r+') as f:
             data = json.load(f)
             vehicles = data.get('vehicles', [])
-            vehicles = [vehicle for vehicle in vehicles if vehicle not in vehicles_del]
-            data['vehicles'] = vehicles
+            data['vehicles'] = [vehicle for vehicle in vehicles if vehicle['id_vehicle'] != id_vehicle]
             f.seek(0)
             json.dump(data, f, indent=4)
             f.truncate()
-
         print("Deletion completed.")
         return vehicles
