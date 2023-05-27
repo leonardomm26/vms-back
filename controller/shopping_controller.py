@@ -3,10 +3,11 @@ import os
 
 PATH = os.getcwd()
 DIR_DATA = PATH + '{0}data{0}'.format(os.sep)
+print(DIR_DATA)
 
 
 class ShoppingController(object):
-    def _init_(self):
+    def __init__(self):
         self.file = '{0}{1}'.format(DIR_DATA, 'purchase.json')
 
     def get_file(self):
@@ -35,3 +36,7 @@ class ShoppingController(object):
             return "The vehicle data was deleted correctly"
         return "The dni doesn't exist"
 
+
+if __name__ == '__main__':
+    Control = ShoppingController()
+    Control.show()

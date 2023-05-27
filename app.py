@@ -3,7 +3,9 @@ from fastapi import FastAPI, Query
 from starlette.middleware.cors import CORSMiddleware
 from controller.vehicle_controller import VehicleController
 from controller.shopping_controller import ShoppingController
-from logic.vehicle import Vehicle
+from logic.land_vehicle import LandVehicle
+from logic.maritime_vehicle import MaritimeVehicle
+from logic.air_vehicle import AirVehicle
 
 from controller.payment_method_controller import PaymentMethodController
 from logic.payment_method import PaymentMethod
@@ -42,18 +44,46 @@ async def compare_vehicle(value: str = Query(...)):
     return vehicles
 
 
-@app.post("/api/vehicle")
+@app.post("/api/land_vehicle")
 async def add(id_vehicle: int, model: str, description: str, brand: str, type_v: str, weight: float, age: int,
-              price: float, status: str):
+              price: float, status: str, millage: float, cylinder_capability: float, fuel_type: str):
     if vh_c.compare(str(id_vehicle)):
         return "A vehicle with the same ID already exists"
     else:
-        return vh_c.add(Vehicle(id_vehicle=id_vehicle, model=model, description=description, brand=brand, type_v=type_v,
-                                weight=weight, age=age, price=price, status=status))
+        return vh_c.add(
+            LandVehicle(id_vehicle=id_vehicle, model=model, description=description, brand=brand, type_v=type_v,
+                        weight=weight, age=age, price=price, status=status, mileage=millage,
+                        cylinder_capability=cylinder_capability, fuel_type=fuel_type))
+
+
+@app.post("/api/maritime_vehicle")
+async def add(id_vehicle: int, model: str, description: str, brand: str, type_v: str, weight: float, age: int,
+              price: float, status: str, length: float, weight_capacity: float, engine_capacity: float,
+              distance_travelled: float):
+    if vh_c.compare(str(id_vehicle)):
+        return "A vehicle with the same ID already exists"
+    else:
+        return vh_c.add(
+            MaritimeVehicle(id_vehicle=id_vehicle, model=model, description=description, brand=brand, type_v=type_v,
+                            weight=weight, age=age, price=price, status=status, length=length,
+                            weight_capacity=weight_capacity, engine_capacity=engine_capacity,
+                            distance_travelled=distance_travelled))
+
+
+@app.post("/api/air_vehicle")
+async def add(id_vehicle: int, model: str, description: str, brand: str, type_v: str, weight: float, age: int,
+              price: float, status: str, flight_hours: float, people_capacity: int, engine_type: str):
+    if vh_c.compare(str(id_vehicle)):
+        return "A vehicle with the same ID already exists"
+    else:
+        return vh_c.add(
+            AirVehicle(id_vehicle=id_vehicle, model=model, description=description, brand=brand, type_v=type_v,
+                       weight=weight, age=age, price=price, status=status, flight_hours=flight_hours,
+                       people_capacity=people_capacity, engine_type=engine_type))
 
 
 @app.post("/api/delete_vehicle")
-async def delete(value: str = Query(...)):
+async def delete(value: int):
     vehicles = vh_c.delete(value)
     return vehicles
 

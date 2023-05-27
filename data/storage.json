@@ -1,15 +1,30 @@
 {
-  "vehicles": [
-    {
-      "id_vehicle": 90,
-      "model": "Toyota Supra Mk4",
-      "description": "The Toyota Supra MK4 is equipped with a twin-turbo 3.0-litre straight six which can produce up 320Hp and around 440 Nm of torque and is known as the 2JZ-series . The acceleration of this car from 0 to 100kmh is around 4.9 seconds, and the top speed can reach up to 277kmh.",
-      "brand": "Toyota",
-      "type": "Terrestrial",
-      "weight": 3200,
-      "age": 0,
-      "price": 45000,
-      "status": "New"
-    }
-  ]
+    "vehicles": [
+        {
+            "id_vehicle": 90,
+            "model": "Toyota Supra Mk4",
+            "description": "The Toyota Supra MK4 is equipped with a twin-turbo 3.0-litre straight six which can produce up 320Hp and around 440 Nm of torque and is known as the 2JZ-series . The acceleration of this car from 0 to 100kmh is around 4.9 seconds, and the top speed can reach up to 277kmh.",
+            "brand": "Toyota",
+            "type": "Terrestrial",
+            "weight": 3200,
+            "age": 0,
+            "price": 45000,
+            "status": "New"
+        },
+        {
+            "id_vehicle": 102,
+            "model": "Ocean Crusier",
+            "description": "A luxurious yacht for leisurely cruises",
+            "brand": "Seafarer Boats",
+            "type": "Maritime",
+            "weight": 25000.0,
+            "age": 5,
+            "price": 1500000.0,
+            "status": "Second Hand",
+            "weight_capacity": 3000.0,
+            "engine_capacity": 20000.0,
+            "distance_travelled": 40.5,
+            "length": 500.0
+        }
+    ]
 }
