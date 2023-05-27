@@ -4,7 +4,7 @@
     "model": "Toyota Camry",
     "description": "A reliable sedan with great gas mileage.",
     "brand": "Toyota",
-    "type_v": "Sedan",
+    "type": "Sedan",
     "weight": 3400.0,
     "age": 2,
     "price": 25000.0,
