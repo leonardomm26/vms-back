@@ -11,25 +11,25 @@
     "status": "Available"
   },
   {
-    "_id_vehicle": 120200,
-    "_model": "Brummmmmmm",
-    "_description": "Brimmmmmsf mafma ",
-    "_brand": "Mazda",
-    "_type": "Cargas",
-    "_weight": 21020202.0,
-    "_age": 2004,
-    "_price": 2500600.0,
-    "_status": "Viejo"
+    "id_vehicle": 120200,
+    "model": "Brummmmmmm",
+    "description": "Brimmmmmsf mafma ",
+    "brand": "Mazda",
+    "type": "Cargas",
+    "weight": 21020202.0,
+    "age": 2004,
+    "price": 2500600.0,
+    "status": "Viejo"
   },
   {
-    "_id_vehicle": 40,
-    "_model": "Supra",
-    "_description": "The mythic car for Fast&Furious fans",
-    "_brand": "Toyota",
-    "_type": "Sport",
-    "_weight": 1495.0,
-    "_age": 0,
-    "_price": 2500.0,
-    "_status": "New"
+    "id_vehicle": 40,
+    "model": "Supra",
+    "description": "The mythic car for Fast&Furious fans",
+    "brand": "Toyota",
+    "type": "Sport",
+    "weight": 1495.0,
+    "age": 0,
+    "price": 2500.0,
+    "status": "New"
   }
 ]
