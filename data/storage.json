@@ -1,35 +1,26 @@
-[
-  {
-    "id_vehicle": 12345,
-    "model": "Toyota Camry",
-    "description": "A reliable sedan with great gas mileage.",
-    "brand": "Toyota",
-    "type": "Sedan",
-    "weight": 3400.0,
-    "age": 2,
-    "price": 25000.0,
-    "status": "Available"
-  },
-  {
-    "id_vehicle": 120200,
-    "model": "Brummmmmmm",
-    "description": "Brimmmmmsf mafma ",
-    "brand": "Mazda",
-    "type": "Cargas",
-    "weight": 21020202.0,
-    "age": 2004,
-    "price": 2500600.0,
-    "status": "Viejo"
-  },
-  {
-    "id_vehicle": 40,
-    "model": "Supra",
-    "description": "The mythic car for Fast&Furious fans",
-    "brand": "Toyota",
-    "type": "Sport",
-    "weight": 1495.0,
-    "age": 0,
-    "price": 2500.0,
-    "status": "New"
-  }
-]
+{
+  "vehicles": [
+    {
+      "id_vehicle": 120200,
+      "model": "Brummmmmmm",
+      "description": "Brimmmmmsf mafma ",
+      "brand": "Mazda",
+      "type": "Cargas",
+      "weight": 21020202.0,
+      "age": 2004,
+      "price": 2500600.0,
+      "status": "Viejo"
+    },
+    {
+      "id_vehicle": 40,
+      "model": "Supra",
+      "description": "The mythic car for Fast&Furious fans",
+      "brand": "Toyota",
+      "type": "Sport",
+      "weight": 1495.0,
+      "age": 0,
+      "price": 2500.0,
+      "status": "New"
+    }
+  ]
+}

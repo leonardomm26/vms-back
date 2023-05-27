@@ -20,7 +20,7 @@ class VehicleController(object):
 
     def show(self):
         with open(self.file, 'r') as file:
-            json_object = json.load(file)
+            json_object = json.load(file)["vehicles"]
         return json_object
 
     def compare(self, value):
