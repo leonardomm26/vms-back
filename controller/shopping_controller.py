@@ -52,7 +52,7 @@ class ShoppingController(object):
                 else:
                     message = {"message": "The vehicle not found in your purchases"}
             else:
-                message = {"message": "This person doesn't has purchases in shopping car"}
+                message = {"message": "This person doesn't has purchases"}
         with open(self.file, "w") as file:
             json.dump(data, file, indent=4)
         return message
@@ -70,9 +70,10 @@ class ShoppingController(object):
                         else:
                             purchases[dni] = {"dni": dni, "vehicles": [vehicle]}
                         data["purchases_done"] = list(purchases.values())
-                        message = {"message": "Vehicle added to shopping done"}
+                        message = {"message": "Vehicle added to purchases done"}
                     else:
-                        purchases = {dic[dni]: dic for dic in data["purchases_in_shCar"]}
+                        print(data["purchases_in_shCar"])
+                        purchases = {dic["dni"]: dic for dic in data["purchases_in_shCar"]}
                         if dni in purchases.keys():
                             purchases[dni]["vehicles"].append(vehicle)
                         else:
