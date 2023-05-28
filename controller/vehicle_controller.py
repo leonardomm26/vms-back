@@ -37,7 +37,7 @@ class VehicleController(object):
     def compare(self, value):
         with open(self.file) as f:
             data = json.load(f)
-        vehicles = [vehicle for vehicle in data['vehicles'] if value in str(vehicle.values())]
+        vehicles = [vehicle for vehicle in data['vehicles'] if value.lower() in str(vehicle.values()).lower()]
         return vehicles
 
     def delete(self, id_vehicle: int):
@@ -54,4 +54,4 @@ class VehicleController(object):
 
 if __name__ == '__main__':
     Control = VehicleController()
-    print(Control.search(102))
+    print(Control.search(123))
