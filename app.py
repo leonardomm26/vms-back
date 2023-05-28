@@ -105,18 +105,8 @@ async def select(value: str = Query(...)):
 
 
 @app.post("/api/buy")
-async def buy(vehicle_id: int = Query(...)):
-    vehicle = vh_c.compare(str(vehicle_id))
-
-    if vehicle:
-        vehicle_data = vehicle[0]
-        if not any(v['_id_vehicle'] == vehicle_id for v in vehicles_tb):
-            vehicles_tb.append({"_id_vehicle": vehicle_id, **vehicle_data})
-            return {"message": "Vehicle added to purchase list."}
-        else:
-            return {"message": "Vehicle already added to purchase list."}
-    else:
-        return {"message": "Vehicle not found."}
+async def buy(dni: str, vehicle_id: int = Query(...)):
+    return p_c.buy(dni, vehicle_id)
 
 
 @app.post("/api/purchase")
@@ -125,15 +115,15 @@ async def purchase(dni: str = Query(...), confirm: bool = Query(...)):
     if confirm:
         if not os.path.exists("data/purchase.json"):
             with open("data/purchase.json", "w") as file:
-                file.write("{}")
+                file.write("[]")
         with open("data/purchase.json", "r") as file:
             purchase_data = json.load(file)
         if dni in purchase_data:
             for vehicle in vehicles_tb:
-                if not any(v['_id_vehicle'] == vehicle['_id_vehicle'] for v in purchase_data[dni]['vehicles']):
-                    purchase_data[dni]['vehicles'].append(vehicle)
+                if not any(v['id_vehicle'] == vehicle['id_vehicle'] for v in purchase_data['vehicles']):
+                    purchase_data['vehicles'].append(vehicle)
         else:
-            purchase_data[dni] = {"dni": dni, "vehicles": vehicles_tb}
+            purchase_data = [{"dni": dni, "vehicles": vehicles_tb}]
         with open("data/purchase.json", "w") as file:
             json.dump(purchase_data, file)
         vehicles_tb.clear()
@@ -151,7 +141,7 @@ async def get_purchases():
 
 @app.post("/api/delete_purchase")
 async def delete_purchase(dni: str = Query(..., description="User's DNI"),
-                          id_v: str = Query(..., description="Vehicle ID")):
+                          id_v: int = Query(..., description="Vehicle ID")):
     purchases = p_c.erase_vehicle(dni, id_v)
     return {"message": purchases}
 

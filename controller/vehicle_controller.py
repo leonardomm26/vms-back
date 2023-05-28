@@ -26,6 +26,14 @@ class VehicleController(object):
                 message = 'There is already a vehicle with that id'
         return message
 
+    def search(self, id_vehicle: int) -> dict:
+        data = self.show()
+        vehicle_f = [vehicle for vehicle in data if vehicle["id_vehicle"] == id_vehicle]
+        if len(vehicle_f) == 1:
+            return vehicle_f[0]
+        else:
+            return {"message": "Vehicle not found"}
+
     def compare(self, value):
         with open(self.file) as f:
             data = json.load(f)
@@ -46,4 +54,4 @@ class VehicleController(object):
 
 if __name__ == '__main__':
     Control = VehicleController()
-    print(Control.show())
+    print(Control.search(102))
