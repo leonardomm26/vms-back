@@ -14,44 +14,78 @@ class ShoppingController(object):
     def get_file(self):
         return self.file
 
-    def show(self):
+    def show(self, confirm: bool):
         with open(self.file, 'r') as file:
-            json_object = json.load(file)
+            if confirm:
+                json_object = json.load(file)["purchases_done"]
+            else:
+                json_object = json.load(file)["purchases_in_shCar"]
         return json_object
 
-    def select(self, dni: str):
+    def select(self, dni: str, confirm: bool):
         with open(self.file, 'r') as file:
             data = json.load(file)
-        shopping_cart = [purchase for purchase in data if purchase["dni"] == dni]
-        return shopping_cart
+            if confirm:
+                purchases = [purchase for purchase in data["purchases_done"] if purchase["dni"] == dni]
+            else:
+                purchases = [purchase for purchase in data["purchases_in_shCar"] if purchase["dni"] == dni]
+        return purchases
 
-    def erase_vehicle(self, dni, id_v: int):
+    def erase_vehicle(self, dni, id_v: int, confirm: bool):
+        vehicle = vh_c.search(id_v)
         with open(self.file, "r") as file:
             data = json.load(file)
-        if dni in [purchase["dni"] for purchase in data]:
-            purchs = list(filter(lambda d: d["dni"] == dni, data))[0]
-            vehicles = purchs["vehicles"]
-            updated_vehicles = [vehicle for vehicle in vehicles if vehicle["id_vehicle"] != id_v]
-            purchs["vehicles"] = updated_vehicles
-            with open(self.file, "w") as file:
-                json.dump(data, file, indent=4)
-            return "The vehicle data was deleted correctly"
-        return "The dni doesn't exist"
+            if id_v in vehicle.keys():
+                if confirm:
+                    purchases = {dic["dni"]: dic for dic in data["purchases_done"]}
+                    if dni in purchases.keys():
+                        purchs = list(filter(lambda d: d["dni"] == dni, purchases))[0]
+                        vehicles = purchs["vehicles"]
+                        updated_vehicles = [vehicle for vehicle in vehicles if vehicle["id_vehicle"] != id_v]
+                        purchs["vehicles"] = updated_vehicles
+                        data["purchases_done"] = list(purchases.values())
+                else:
+                    purchases = {dic["dni"]: dic for dic in data["purchases_in_shCar"]}
+                    if dni in purchases.keys():
+                        purchs = list(filter(lambda d: d["dni"] == dni, purchases))[0]
+                        vehicles = purchs["vehicles"]
+                        updated_vehicles = [vehicle for vehicle in vehicles if vehicle["id_vehicle"] != id_v]
+                        purchs["vehicles"] = updated_vehicles
+                        data["purchases_in_shCar"] = list(purchases.values())
+                message = {"message": "The vehicle was deleted from your purchases correctly"}
+            else:
+                message = {"message": "The vehicle not found in your purchases"}
+        with open(self.file, "r") as file:
+            json.dump(data, file, indent=4)
+        return message
 
-    def buy(self, dni: str, id_v: int):
-        vehicle = vh_c.search(id_v)
-        if vehicle:
-            with open(self.file, 'r') as file:
-                data = json.load(file)
-                data = {dic["dni"]: dic for dic in data}
-                data[dni]["vehicles"].append(vehicle)
-                data = list(data.values())
-                file.close()
-            with open(self.file, 'w') as file:
-                json.dump(data, file, indent=4)
-            return {"message": "Vehicle added to purchase list."}
-        else:
-            return {"message": "Vehicle not found."}
+    def purchase(self, dni: str, id_vehicle: int, confirm: bool) -> dict:
+        vehicle = vh_c.search(id_vehicle)
+        with open(self.file, 'r') as file:
+            data = json.load(file)
+            if "id_vehicle" in vehicle.keys():
+                if id_vehicle == vehicle["id_vehicle"]:
+                    if confirm:
+                        purchases = {dic["dni"]: dic for dic in data["purchases_done"]}
+                        if dni in purchases.keys():
+                            purchases[dni]["vehicles"].append(vehicle)
+                        else:
+                            purchases[dni] = {"dni": dni, "vehicles": [vehicle]}
+                        data["purchases_done"] = list(purchases.values())
+                        message = {"message": "Vehicle added to shopping done"}
+                    else:
+                        purchases = {dic[dni]: dic for dic in data["purchases_in_shCar"]}
+                        if dni in purchases.keys():
+                            purchases[dni]["vehicles"].append(vehicle)
+                        else:
+                            purchases[dni] = {"dni": dni, "vehicles": [vehicle]}
+                        data["purchases_in_shCar"] = list(purchases.values())
+                        message = {"message": "Vehicle added to shopping car"}
+            else:
+                message = {"message": "This car is not available"}
+        with open(self.file, 'w') as file:
+            json.dump(data, file, indent=4)
+        return message
 
 
 if __name__ == '__main__':

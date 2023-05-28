@@ -9,14 +9,11 @@ from logic.air_vehicle import AirVehicle
 
 from controller.payment_method_controller import PaymentMethodController
 from logic.payment_method import PaymentMethod
-import json
-import os
 
 app = FastAPI()
 p_c = ShoppingController()
 vh_c = VehicleController()
 pm_c = PaymentMethodController()
-vehicles_tb = []
 origins = ["*"]
 
 app.add_middleware(
@@ -39,7 +36,7 @@ async def root():
 
 
 @app.post("/compare_vehicle")
-async def compare_vehicle(value: str = Query(...)):
+async def compare_vehicle(value: str = Query(..., description="Keyword")):
     vehicles = vh_c.compare(value)
     return vehicles
 
@@ -104,51 +101,37 @@ async def select(value: str = Query(...)):
     return selected_payment
 
 
-@app.post("/api/buy")
-async def buy(dni: str, vehicle_id: int = Query(...)):
-    return p_c.buy(dni, vehicle_id)
-
-
 @app.post("/api/purchase")
-async def purchase(dni: str = Query(...), confirm: bool = Query(...)):
-    global vehicles_tb
-    if confirm:
-        if not os.path.exists("data/purchase.json"):
-            with open("data/purchase.json", "w") as file:
-                file.write("[]")
-        with open("data/purchase.json", "r") as file:
-            purchase_data = json.load(file)
-        if dni in purchase_data:
-            for vehicle in vehicles_tb:
-                if not any(v['id_vehicle'] == vehicle['id_vehicle'] for v in purchase_data['vehicles']):
-                    purchase_data['vehicles'].append(vehicle)
-        else:
-            purchase_data = [{"dni": dni, "vehicles": vehicles_tb}]
-        with open("data/purchase.json", "w") as file:
-            json.dump(purchase_data, file)
-        vehicles_tb.clear()
-        return {"message": "Purchase done."}
-    else:
-        vehicles_tb.clear()
-        return {"message": "Purchase cancelled."}
+async def purchase(dni: str = Query(..., description="User's DNI"),
+                   id_vehicle: int = Query(..., description="Vehicle ID"),
+                   confirm: bool = Query(..., description="Purchase State")):
+    return p_c.purchase(dni, id_vehicle, confirm)
 
 
 @app.get("/api/purchases_done")
 async def get_purchases():
-    purchases = p_c.show()
+    purchases = p_c.show(True)
+    return purchases
+
+
+@app.get("/api/shopping_car")
+async def get_purchases():
+    purchases = p_c.show(False)
     return purchases
 
 
 @app.post("/api/delete_purchase")
 async def delete_purchase(dni: str = Query(..., description="User's DNI"),
-                          id_v: int = Query(..., description="Vehicle ID")):
-    purchases = p_c.erase_vehicle(dni, id_v)
+                          id_v: int = Query(..., description="Vehicle ID"),
+                          confirm: bool = Query(..., description="Purchase State")):
+    purchases = p_c.erase_vehicle(dni, id_v, confirm)
     return {"message": purchases}
 
 
 @app.get("/api/select_purchase")
-async def select_purchase(dni: str = Query(...)):
-    purchases = p_c.select(dni)
+async def select_purchase(dni: str = Query(..., description="User's DNI"),
+                          confirm: bool = Query(..., description="Purchase State")):
+    purchases = p_c.select(dni, confirm)
     return purchases
 
 
