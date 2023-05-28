@@ -31,31 +31,29 @@ class ShoppingController(object):
                 purchases = [purchase for purchase in data["purchases_in_shCar"] if purchase["dni"] == dni]
         return purchases
 
-    def erase_vehicle(self, dni, id_v: int, confirm: bool):
+    def erase_vehicle(self, dni: str, id_v: int, confirm: bool):
         vehicle = vh_c.search(id_v)
         with open(self.file, "r") as file:
             data = json.load(file)
-            if id_v in vehicle.keys():
-                if confirm:
-                    purchases = {dic["dni"]: dic for dic in data["purchases_done"]}
-                    if dni in purchases.keys():
-                        purchs = list(filter(lambda d: d["dni"] == dni, purchases))[0]
+            purchases = {dic["dni"]: dic for dic in data["purchases_done"]} if confirm else {dic["dni"]: dic for dic in
+                                                                                             data["purchases_in_shCar"]}
+            if dni in purchases.keys():
+                if 'id_vehicle' in vehicle.keys():
+                    if id_v == vehicle["id_vehicle"]:
+                        purchs = purchases.get(dni)
                         vehicles = purchs["vehicles"]
                         updated_vehicles = [vehicle for vehicle in vehicles if vehicle["id_vehicle"] != id_v]
                         purchs["vehicles"] = updated_vehicles
-                        data["purchases_done"] = list(purchases.values())
+                        if confirm:
+                            data["purchases_done"] = list(purchases.values())
+                        else:
+                            data["purchases_in_shCar"] = list(purchases.values())
+                        message = {"message": "The vehicle was deleted from your purchases correctly"}
                 else:
-                    purchases = {dic["dni"]: dic for dic in data["purchases_in_shCar"]}
-                    if dni in purchases.keys():
-                        purchs = list(filter(lambda d: d["dni"] == dni, purchases))[0]
-                        vehicles = purchs["vehicles"]
-                        updated_vehicles = [vehicle for vehicle in vehicles if vehicle["id_vehicle"] != id_v]
-                        purchs["vehicles"] = updated_vehicles
-                        data["purchases_in_shCar"] = list(purchases.values())
-                message = {"message": "The vehicle was deleted from your purchases correctly"}
+                    message = {"message": "The vehicle not found in your purchases"}
             else:
-                message = {"message": "The vehicle not found in your purchases"}
-        with open(self.file, "r") as file:
+                message = {"message": "This person doesn't has purchases in shopping car"}
+        with open(self.file, "w") as file:
             json.dump(data, file, indent=4)
         return message
 

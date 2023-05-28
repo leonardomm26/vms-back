@@ -124,8 +124,7 @@ async def get_purchases():
 async def delete_purchase(dni: str = Query(..., description="User's DNI"),
                           id_v: int = Query(..., description="Vehicle ID"),
                           confirm: bool = Query(..., description="Purchase State")):
-    purchases = p_c.erase_vehicle(dni, id_v, confirm)
-    return {"message": purchases}
+    return p_c.erase_vehicle(dni, id_v, confirm)
 
 
 @app.get("/api/select_purchase")
