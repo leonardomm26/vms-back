@@ -2,7 +2,7 @@ import json
 import os
 from logic.payment_method import PaymentMethod
 PATH = os.getcwd()
-DIR_DATA = PATH + '{0}..{0}data{0}'.format(os.sep)
+DIR_DATA = PATH + '{0}data{0}'.format(os.sep)
 
 
 class PaymentMethodController(object):
