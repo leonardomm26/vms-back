@@ -12,7 +12,7 @@ class PaymentMethodController(object):
     def add(self, payment_method: PaymentMethod = PaymentMethod()) -> str:
         with open(self.file, 'r+') as f:
             data = json.load(f)
-            data['payment_methods'].append(payment_method.__dict__)
+            data['payments'].append(payment_method.__dict__)
             print(payment_method.__str__())
             f.seek(0)
             json.dump(data, f)
@@ -27,6 +27,6 @@ class PaymentMethodController(object):
     def select(self, value):
         with open(self.file, 'r+') as file:
             data = json.load(file)
-            for payment_method in data['payment_methods']:
+            for payment_method in data['payments']:
                 if value in str(payment_method.values()):
                     return payment_method.__str__()
