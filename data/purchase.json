@@ -35,6 +35,21 @@
                     "age": 0,
                     "price": 45000,
                     "status": "New"
+                },
+                {
+                    "id_vehicle": 102,
+                    "model": "Ocean Crusier",
+                    "description": "A luxurious yacht for leisurely cruises",
+                    "brand": "Seafarer Boats",
+                    "type": "Maritime",
+                    "weight": 25000.0,
+                    "age": 5,
+                    "price": 1500000.0,
+                    "status": "Second Hand",
+                    "weight_capacity": 3000.0,
+                    "engine_capacity": 20000.0,
+                    "distance_travelled": 40.5,
+                    "length": 500.0
                 }
             ]
         }

@@ -43,13 +43,13 @@ async def compare_vehicle(value: str = Query(..., description="Keyword")):
 
 @app.post("/api/land_vehicle")
 async def add(id_vehicle: int, model: str, description: str, brand: str, type_v: str, weight: float, age: int,
-              price: float, status: str, millage: float, cylinder_capability: float, fuel_type: str):
+              price: float, status: str, mileage: float, cylinder_capability: float, fuel_type: str):
     if vh_c.compare(str(id_vehicle)):
         return "A vehicle with the same ID already exists"
     else:
         return vh_c.add(
             LandVehicle(id_vehicle=id_vehicle, model=model, description=description, brand=brand, type_v=type_v,
-                        weight=weight, age=age, price=price, status=status, mileage=millage,
+                        weight=weight, age=age, price=price, status=status, mileage=mileage,
                         cylinder_capability=cylinder_capability, fuel_type=fuel_type))
 
 
@@ -79,8 +79,8 @@ async def add(id_vehicle: int, model: str, description: str, brand: str, type_v:
                        people_capacity=people_capacity, engine_type=engine_type))
 
 
-@app.post("/api/delete_vehicle")
-async def delete(value: int):
+@app.delete("/api/delete_vehicle")
+async def delete(value: int = Query(..., description="Vehicle ID")):
     vehicles = vh_c.delete(value)
     return vehicles
 
@@ -91,7 +91,7 @@ async def root():
 
 
 @app.post("/api/payment_method")
-async def add(payment_method: str):
+async def add(payment_method: str = Query(..., description="Payment Method")):
     return pm_c.add(PaymentMethod(payment_method=payment_method))
 
 
@@ -120,7 +120,7 @@ async def get_purchases():
     return purchases
 
 
-@app.post("/api/delete_purchase")
+@app.delete("/api/delete_purchase")
 async def delete_purchase(dni: str = Query(..., description="User's DNI"),
                           id_v: int = Query(..., description="Vehicle ID"),
                           confirm: bool = Query(..., description="Purchase State")):

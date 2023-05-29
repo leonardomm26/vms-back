@@ -72,14 +72,18 @@ class ShoppingController(object):
                         data["purchases_done"] = list(purchases.values())
                         message = {"message": "Vehicle added to purchases done"}
                     else:
-                        print(data["purchases_in_shCar"])
                         purchases = {dic["dni"]: dic for dic in data["purchases_in_shCar"]}
                         if dni in purchases.keys():
-                            purchases[dni]["vehicles"].append(vehicle)
+                            if vehicle not in purchases[dni]["vehicles"]:
+                                purchases[dni]["vehicles"].append(vehicle)
+                                message = {"message": "Vehicle added to shopping car"}
+                            else:
+                                message = {"message": "The vehicle is already in the shopping cart."}
                         else:
                             purchases[dni] = {"dni": dni, "vehicles": [vehicle]}
+                            message = {"message": "Vehicle added to shopping car"}
                         data["purchases_in_shCar"] = list(purchases.values())
-                        message = {"message": "Vehicle added to shopping car"}
+
             else:
                 message = {"message": "This car is not available"}
         with open(self.file, 'w') as file:

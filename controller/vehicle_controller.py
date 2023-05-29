@@ -21,7 +21,7 @@ class VehicleController(object):
                 data['vehicles'].append(vehicle.__dict__())
                 f.seek(0)
                 json.dump(data, f)
-                message = vehicle.__str__()
+                message = vehicle.__dict__()
             else:
                 message = 'There is already a vehicle with that id'
         return message

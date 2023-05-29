@@ -48,6 +48,10 @@ class PaymentMethod(object):
         else:
             return False
 
+    def __dict__(self):
+        return {"payment_method": self.__payment_method}
+
+
 
 if __name__ == '__main__':
     payment_method_1 = PaymentMethod("Cash")
